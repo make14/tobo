@@ -29,7 +29,7 @@ exports.handler = async function(event, context) {
       // flatten array row
       // [ [a,b],[c,d],...]  -->  [a, b, c, d, ... ]
       arr = points[index].join().split(",");
-      pointsCount += arr.length;
+      pointsCount += (arr.length / 2);      // 2 coefficients for each point
 
       vertexStr += ""
         + JSON.stringify(arr)

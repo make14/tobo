@@ -21,16 +21,18 @@ exports.handler = async function(event, context) {
       var triangles;
       var arr = x.join();
       resText +=
-          "// path#" + padNumber(index,4)
+          "// path" + padNumber(index,4)
         + "\n"
-        +"// "
+        + "var  vertexMatrix" + padNumber(index,4)
+        + " = new Float32Array("
+        + "\n  "
         + JSON.stringify(x)
         + "\n"
         ;
 
       triangles = earcut( arr );
       resText +=
-          "var  indexMatrix" + padNumber(index,4)
+          "var  index_Matrix" + padNumber(index,4)
         + " = new Uint16Array("
         + "\n  "
         + JSON.stringify(triangles)

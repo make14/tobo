@@ -12,18 +12,18 @@ exports.handler = async function(event, context) {
 
     let points = pathDataToPolys(
         event.body,
-      //{tolerance:1, decimals:1});
-        {tolerance:1, decimals:0});
+        {tolerance:1, decimals:1});
+
 
     var resText = "";
-    points.forEach(printElement);
 
-    function printElement(x, index) {
-      var triangles = [];
-      var arr = [];
-      arr = x.join();
+    var triangles = [];
+    var arr = [];
 
+    for (var index=0; index<points.length; index++){
       resText += "// path" + padNumber(index,4) + "\n";
+
+      arr = points[index].join();
 
       resText += ""
         + "var vertexMatrix" + padNumber(index,4)

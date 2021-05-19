@@ -34,6 +34,9 @@ exports.handler = async function(event, context) {
         + "\n] );\n"
         ;
 
+      resText += "\n\n"+JSON.stringify(arr[0])+"\n"+JSON.stringify(arr[arr.length-1])+"\n\n";
+
+
       triangles = earcut( arr );
       resText += ""
         + "var index_Matrix" + padNumber(index,4)

@@ -31,7 +31,7 @@ exports.handler = async function(event, context) {
       // [ [a,b],[c,d],...]  -->  [a, b, c, d, ... ]
       arr = points[index].join().split(",");
 
-      if (triangles.length > 0 ){
+      if (arr.length > 0 ){
         vertexStr += ""
           + JSON.stringify(arr)
                 // remove square brackets and quotes

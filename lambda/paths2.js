@@ -24,7 +24,7 @@ exports.handler = async function(event, context) {
 
       resText += "// path" + padNumber(index,4) + "\n";
 
-      resText +=
+      resText += ""
         + "var vertexMatrix" + padNumber(index,4)
         + " = new Float32Array("
         + "\n  "
@@ -33,8 +33,8 @@ exports.handler = async function(event, context) {
         ;
 
       triangles = earcut( arr );
-      resText +=
-          "var index_Matrix" + padNumber(index,4)
+      resText += ""
+        + "var index_Matrix" + padNumber(index,4)
         + " = new  Uint16Array("
         + "\n  "
         + JSON.stringify(triangles)

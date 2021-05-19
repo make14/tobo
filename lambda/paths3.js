@@ -17,8 +17,8 @@ exports.handler = async function(event, context) {
         {tolerance:1, decimals:1});
 
 
-    var vertexText = "";
-    var indexText = "";
+    var vertexStr = "";
+    var indexStr = "";
 
     var triangles = [];
     var arr = [];
@@ -31,14 +31,14 @@ exports.handler = async function(event, context) {
       arr = points[index].join().split(",");
       pointsCount += arr.length;
 
-      vertexText += ""
+      vertexStr += ""
         + JSON.stringify(arr).replace(/"/g,"")
         ;
 
 
       triangles = earcut( arr );
       for (var i=0; i<triangles.length;i++)triangles[i]+=trianglesOffset;
-      indexText += ""
+      indexStr += ""
         + JSON.stringify(triangles)
         ;
       trianglesOffset += triangles.length;
@@ -53,7 +53,7 @@ exports.handler = async function(event, context) {
         + "var vertexMatrix"
         + " = new Float32Array( "
         + "\n  "
-        + vertexTxt
+        + vertexStr
         + "\n]);\n"
 
         + "\n"
@@ -62,7 +62,7 @@ exports.handler = async function(event, context) {
         + "var indexMatrix"
         + " = new  Uint16Array("
         + "\n  "
-        + indexText
+        + indexStr
         + "\n);\n"
 
     });

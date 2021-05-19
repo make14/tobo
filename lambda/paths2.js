@@ -12,7 +12,8 @@ exports.handler = async function(event, context) {
 
     let points = pathDataToPolys(
         event.body,
-        {tolerance:1, decimals:1});
+      //{tolerance:1, decimals:1});
+        {tolerance:1, decimals:0});
 
     var resText = "";
     points.forEach(printElement);
@@ -29,7 +30,7 @@ exports.handler = async function(event, context) {
         + " = new Float32Array("
         + "\n  "
       //+ JSON.stringify(x)
-        + JSON.stringify(arr)
+        + JSON.stringify(arr).replace(/"/g,"")
         + "\n);\n"
         ;
 

@@ -66,7 +66,7 @@ exports.handler = async function(event, context) {
 
    // 10 τυπικά χρώματα: κόκκινο πράσινο μπλε κίτρινο ιώδες γαλάζιο καφέ ροζ πορτοκαλί λευκό
    var colors = ["1.0,0.0,0.0,1", "0.0,1.0,0.0,1", "0.0,0.0,1.0,1", "1.0,1.0,0.0,1", "1.0,0.0,1.0,1", "0.0,1.0,1.0,1", "0.6,0.2,0.0", "1.0,0.8,1.0", "1.0,0.39,0.13", "1.0,1.0,1.0" ];
-   for (var i=0; i<pointsCount;i++) colorStr += colors[ pointsCount % colors.length ]+",";
+   for (var i=0; i<pointsCount;i++) colorStr += colors[i % colors.length]+",";
 
     return({
         statusCode: 200,

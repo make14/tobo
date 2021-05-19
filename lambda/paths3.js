@@ -45,7 +45,9 @@ exports.handler = async function(event, context) {
 
 
       triangles = earcut( arr );
-      for (var i=0; i<triangles.length;i++)triangles[i]+=trianglesCount;
+      // set the appropriate index matrix offset
+      for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
+
       indexStr += ""
         + JSON.stringify(triangles)
               // remove square brackets

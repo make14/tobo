@@ -33,13 +33,14 @@ exports.handler = async function(event, context) {
 
       vertexStr += ""
         + JSON.stringify(arr).replace(/"/g,"")
+        + ",\n"
         ;
 
 
       triangles = earcut( arr );
       for (var i=0; i<triangles.length;i++)triangles[i]+=trianglesOffset;
       indexStr += ""
-        + JSON.stringify(triangles)
+        + JSON.stringify(triangles) + ",\n"
         ;
       trianglesOffset += triangles.length;
 
@@ -49,7 +50,7 @@ exports.handler = async function(event, context) {
     return({
         statusCode: 200,
         body: ""
-        + "// points: " + pointsCount
+        + "// points: " + pointsCount + "\n"
         + "var vertexMatrix"
         + " = new Float32Array( "
         + "\n  "
@@ -58,7 +59,7 @@ exports.handler = async function(event, context) {
 
         + "\n"
 
-        + "// triangles: " + trianglesOffset
+        + "// triangles: " + trianglesOffset + "\n"
         + "var indexMatrix"
         + " = new  Uint16Array("
         + "\n  "

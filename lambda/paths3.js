@@ -22,7 +22,7 @@ exports.handler = async function(event, context) {
 
     var triangles = [];
     var arr = [];
-    var trianglesOffset = 0;
+    var trianglesCount = 0;
     var pointsCount = 0;
 
     for (var index=0; index<points.length; index++){
@@ -44,11 +44,11 @@ exports.handler = async function(event, context) {
 
 
       triangles = earcut( arr );
-      for (var i=0; i<triangles.length;i++)triangles[i]+=trianglesOffset;
+      for (var i=0; i<triangles.length;i++)triangles[i]+=trianglesCount;
       indexStr += ""
         + JSON.stringify(triangles) + ",\n"
         ;
-      trianglesOffset += triangles.length;
+      trianglesCount += triangles.length;
 
 
     }
@@ -65,7 +65,7 @@ exports.handler = async function(event, context) {
 
         + "\n"
 
-        + "// triangles: " + trianglesOffset + "\n"
+        + "// triangles: " + trianglesCount/3 + " (" + trianglesCount + " points)" + "\n"
         + "var indexMatrix"
         + " = new  Uint16Array(["
         + "\n"

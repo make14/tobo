@@ -23,7 +23,7 @@ exports.handler = async function(event, context) {
     for (var index=0; index<points.length; index++){
       resText += "// path" + padNumber(index,4) + "\n";
 
-      arr = (points[index].join());
+      arr = points[index].join().split(",");
 
       resText += ""
         + "var vertexMatrix" + padNumber(index,4)

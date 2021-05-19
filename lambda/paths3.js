@@ -19,6 +19,7 @@ exports.handler = async function(event, context) {
 
     var vertexStr = "";
     var indexStr = "";
+    var colorStr = "";
 
     var triangles = [];
     var arr = [];
@@ -30,34 +31,42 @@ exports.handler = async function(event, context) {
       // [ [a,b],[c,d],...]  -->  [a, b, c, d, ... ]
       arr = points[index].join().split(",");
 
-      vertexStr += ""
-        + JSON.stringify(arr)
-              // remove square brackets and quotes
-              .replace(/["\[\]]/g, "")
-              // append a comma
-              .replace(/$/,",")
-              // convert pairs of coefficients to quartet
-              // ..., a,b, ...  -->  ..., a,b,0,1, ...
-              .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
-        + "\n"
-        ;
+      if (triangles.length > 0 ){
+        vertexStr += ""
+          + JSON.stringify(arr)
+                // remove square brackets and quotes
+                .replace(/["\[\]]/g, "")
+                // append a comma
+                .replace(/$/,",")
+                // convert pairs of coefficients to quartet
+                // ..., a,b, ...  -->  ..., a,b,0,1, ...
+                .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
+          + "\n"
+          ;
 
 
-      triangles = earcut( arr );
-      // set the appropriate index matrix offset
-      for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
-      pointsCount += (arr.length / 2);      // 2 coefficients for each point
+        triangles = earcut( arr );
+        if (triangles.length > 0 ){
+          // set the appropriate index matrix offset
+          for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
 
-      indexStr += ""
-        + JSON.stringify(triangles)
-              // remove square brackets
-              .replace(/[\[\]]/g, "")
-        + ",\n"
-        ;
-      trianglesCount += triangles.length;
+          indexStr += ""
+            + JSON.stringify(triangles)
+                  // remove square brackets
+                  .replace(/[\[\]]/g, "")
+            + ",\n"
+            ;
+          trianglesCount += triangles.length;
+        }
 
-
+        pointsCount += (arr.length / 2);      // 2 coefficients for each point
+      }
     }
+
+
+   // 10 τυπικά χρώματα: κόκκινο πράσινο μπλε κίτρινο ιώδες γαλάζιο καφέ ροζ πορτοκαλί λευκό
+   var colors = ["1.0,0.0,0.0,1", "0.0,1.0,0.0,1", "0.0,0.0,1.0,1", "1.0,1.0,0.0,1", "1.0,0.0,1.0,1", "0.0,1.0,1.0,1", "0.6,0.2,0.0", "1.0,0.8,1.0", "1.0,0.39,0.13", "1.0,1.0,1.0" ];
+   for (var i=0; i<pointsCount;i++) colorStr += colors[ pointsCount % colors.length ]+",";
 
     return({
         statusCode: 200,
@@ -77,6 +86,16 @@ exports.handler = async function(event, context) {
         + "\n"
         + indexStr
         + "]);\n"
+
+        + "\n"
+        + "// color points: " + pointsCount + "\n"
+        + "var colorMatrix"
+        + " = new Float32Array(["
+        + colorStr
+        + "\n"
+        + vertexStr
+        + "]);\n"
+
 
     });
 }

@@ -33,12 +33,13 @@ exports.handler = async function(event, context) {
 
       vertexStr += ""
         + JSON.stringify(arr)
-              .replace(/"/g,"")
+              // remove square brackets and quotes
+              .replace(/["\[\]]/g, "")
+              // append a comma
+              .replace(/$/,",")
               // convert pairs of coefficients to quartet
               // ..., a,b, ...  -->  ..., a,b,0,1, ...
               .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
-              // remove square brackets
-              .replace(/[\[\]]/g, "")
         + ",\n"
         ;
 

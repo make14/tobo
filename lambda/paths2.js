@@ -10,15 +10,16 @@ exports.handler = async function(event, context) {
         event.body,
         {tolerance:1, decimals:1});
 
-function printElement(x) {
-  return (JSON.stringify(x));
-} 
+    function printElement(x, index) {
+      return (
+        "/* "+ index +" */ "+
+        JSON.stringify(x)+ "\n");
+    } 
 
     return({
         statusCode: 200,
         body: 
             points.forEach(printElement)
-            + "\n"
     });
 }
 

@@ -23,15 +23,15 @@ exports.handler = async function(event, context) {
     for (var index=0; index<points.length; index++){
       resText += "// path" + padNumber(index,4) + "\n";
 
-      arr = points[index].join();
+      arr = (points[index].join());
 
       resText += ""
         + "var vertexMatrix" + padNumber(index,4)
-        + " = new Float32Array("
+        + " = new Float32Array( ["
         + "\n  "
       //+ JSON.stringify(x)
         + JSON.stringify(arr).replace(/"/g,"")
-        + "\n);\n"
+        + "\n] );\n"
         ;
 
       triangles = earcut( arr );

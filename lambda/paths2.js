@@ -13,9 +13,20 @@ exports.handler = async function(event, context) {
     var resText = "";
     points.forEach(printElement);
     function printElement(x, index) {
+      var triangles;
+      var arr = x.join();
       resText += 
-        "/* "+ index +" */ "+
-        JSON.stringify(x)+ "\n";
+        "/* path#"+ index + ": " 
+       + JSON.stringify(arr)
+       + " */ "
+       + "\n";
+
+      triangles = earcut( arr );
+      resText += 
+        "/* triangles#"+ index + ": */ " 
+       + JSON.stringify(triangles)
+       + "\n";
+
     } 
 
     return({

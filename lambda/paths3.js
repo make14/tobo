@@ -46,7 +46,10 @@ exports.handler = async function(event, context) {
       triangles = earcut( arr );
       for (var i=0; i<triangles.length;i++)triangles[i]+=trianglesCount;
       indexStr += ""
-        + JSON.stringify(triangles) + ",\n"
+        + JSON.stringify(triangles)
+              // remove square brackets
+              .replace(/[\[\]]/g, "")
+        + ",\n"
         ;
       trianglesCount += triangles.length;
 
@@ -61,7 +64,7 @@ exports.handler = async function(event, context) {
         + " = new Float32Array(["
         + "\n"
         + vertexStr
-        + "\n]);\n"
+        + "]);\n"
 
         + "\n"
 
@@ -70,7 +73,7 @@ exports.handler = async function(event, context) {
         + " = new  Uint16Array(["
         + "\n"
         + indexStr
-        + "\n]);\n"
+        + "]);\n"
 
     });
 }

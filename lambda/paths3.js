@@ -32,7 +32,11 @@ exports.handler = async function(event, context) {
       pointsCount += arr.length;
 
       vertexStr += ""
-        + JSON.stringify(arr).replace(/"/g,"")
+        + JSON.stringify(arr)
+              .replace(/"/g,"")
+              // convert pairs of coefficients to quartet
+              // ..., a,b, ...  -->  ..., a,b,0,1, ...
+              .replace(/([^,]*,[^,]*,)/g, "$1,0,1, ")
         + ",\n"
         ;
 

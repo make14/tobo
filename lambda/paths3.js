@@ -40,9 +40,7 @@ exports.handler = async function(event, context) {
               // convert pairs of coefficients to quartet
               // ..., a,b, ...  -->  ..., a,b,0,1, ...
               .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
-              // the previous step produces "..., ,"  at end of line; fix it
-              .replace(/, ,$/,",")
-        + ",\n"
+        + "\n"
         ;
 
 

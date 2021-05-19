@@ -15,7 +15,7 @@ exports.handler = async function(event, context) {
     function printElement(x, index) {
       resText += 
         "/* "+ index +" */ "+
-        JSON.stringify(x)+ "\n");
+        JSON.stringify(x)+ "\n";
     } 
 
     return({

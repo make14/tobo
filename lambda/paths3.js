@@ -29,7 +29,6 @@ exports.handler = async function(event, context) {
       // flatten array row
       // [ [a,b],[c,d],...]  -->  [a, b, c, d, ... ]
       arr = points[index].join().split(",");
-      pointsCount += (arr.length / 2);      // 2 coefficients for each point
 
       vertexStr += ""
         + JSON.stringify(arr)
@@ -47,6 +46,7 @@ exports.handler = async function(event, context) {
       triangles = earcut( arr );
       // set the appropriate index matrix offset
       for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
+      pointsCount += (arr.length / 2);      // 2 coefficients for each point
 
       indexStr += ""
         + JSON.stringify(triangles)

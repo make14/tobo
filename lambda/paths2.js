@@ -18,25 +18,28 @@ exports.handler = async function(event, context) {
     points.forEach(printElement);
 
     function printElement(x, index) {
-      var triangles;
-      var arr = x.join();
+      var triangles = [];
+      var arr = [];
+      arr = x.join();
+
+      resText += "// path" + padNumber(index,4) + "\n";
+
       resText +=
-          "// path" + padNumber(index,4)
-        + "\n"
-        + "var  vertexMatrix" + padNumber(index,4)
+        + "var vertexMatrix" + padNumber(index,4)
         + " = new Float32Array("
         + "\n  "
         + JSON.stringify(x)
-        + "\n"
+        + "\n);\n"
         ;
 
       triangles = earcut( arr );
       resText +=
-          "var  index_Matrix" + padNumber(index,4)
-        + " = new Uint16Array("
+          "var index_Matrix" + padNumber(index,4)
+        + " = new  Uint16Array("
         + "\n  "
         + JSON.stringify(triangles)
-        + "\n);\n";
+        + "\n);\n"
+        ;
 
       function padNumber(N, digits){
         var t = String(N);

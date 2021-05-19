@@ -28,7 +28,8 @@ exports.handler = async function(event, context) {
         + "var vertexMatrix" + padNumber(index,4)
         + " = new Float32Array("
         + "\n  "
-        + JSON.stringify(x)
+      //+ JSON.stringify(x)
+        + JSON.stringify(arr)
         + "\n);\n"
         ;
 

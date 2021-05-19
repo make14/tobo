@@ -37,6 +37,8 @@ exports.handler = async function(event, context) {
               // convert pairs of coefficients to quartet
               // ..., a,b, ...  -->  ..., a,b,0,1, ...
               .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
+              // remove square brackets
+              .replace(/[\[\]]/g, "")
         + ",\n"
         ;
 
@@ -56,8 +58,8 @@ exports.handler = async function(event, context) {
         body: ""
         + "// points: " + pointsCount + "\n"
         + "var vertexMatrix"
-        + " = new Float32Array( "
-        + "\n  "
+        + " = new Float32Array(["
+        + "\n"
         + vertexStr
         + "\n]);\n"
 
@@ -65,10 +67,10 @@ exports.handler = async function(event, context) {
 
         + "// triangles: " + trianglesOffset + "\n"
         + "var indexMatrix"
-        + " = new  Uint16Array("
-        + "\n  "
+        + " = new  Uint16Array(["
+        + "\n"
         + indexStr
-        + "\n);\n"
+        + "\n]);\n"
 
     });
 }

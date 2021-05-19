@@ -36,7 +36,7 @@ exports.handler = async function(event, context) {
               .replace(/"/g,"")
               // convert pairs of coefficients to quartet
               // ..., a,b, ...  -->  ..., a,b,0,1, ...
-              .replace(/([^,]*,[^,]*,)/g, "$1,0,1, ")
+              .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
         + ",\n"
         ;
 

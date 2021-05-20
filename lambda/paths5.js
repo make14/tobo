@@ -9,16 +9,26 @@
 
 // sample output:
 
+const { pathDataToPolys } = require('svg-path-to-polygons');
+
+
 exports.handler = async function(event, context) {
-    const { pathDataToPolys } = require('svg-path-to-polygons');
+    var fillColor='0,0,0';
+    var holeColor='254,0,0';
+    if (event.queryStringParameters &&
+         event.queryStringParameters.fillColor) {
+       fillColor = event.queryStringParameters.fillColor
+    }
+    if (event.queryStringParameters &&
+         event.queryStringParameters.holeColor) {
+       holeColor = event.queryStringParameters.holeColor
+    }
     var tmp, points;
 
     if (event.httpMethod != "POST") {
       return ({ statusCode: 200, body: "POST method accepted only\n" });
     }
 
-    var fillColor='0,0,0';
-    var holeColor='254,0,0';
 
     var inputLines = event.body.split("\n");
  
@@ -26,6 +36,7 @@ exports.handler = async function(event, context) {
     var holesArray = [];
 
 
+    var fillPathsCount = 0, holePathsCount=0;
     var tmpf = new RegExp("<path [^>]*=.rgb." + fillColor + ".*$", 'mg');
     var tmph = new RegExp("<path [^>]*=.rgb." + holeColor + ".*$", 'mg');
     for (var l=0; l<inputLines.length; l++){
@@ -37,6 +48,9 @@ exports.handler = async function(event, context) {
            // a hole path starts here
            // holesArray stores indices of vertices
            holesArray.push(pointsArray.length/2); // 2 coordinates per vertex
+           holePathsCount++;
+         } else {
+           fillPathsCount++;
          };
          // keep the path part only
          tmp = inputLines[l].replace(/<path [^>]*d="([^"]*)"[^>]*>/, "$1");
@@ -50,12 +64,15 @@ exports.handler = async function(event, context) {
          }
        }
     }
+    pointsCount = (data.vertices.length / 2);  // 2 coefficients per vertex
 
 
     if (1==1)
     return({
         statusCode: 200,
         body: ""
+        + "// fill paths: " + fillPathsCount + "\n"
+        + "// hole paths: " + holePathsCount + "\n"
         + "// points: " + JSON.stringify(pointsArray) + "\n"
         + "// holes: " + JSON.stringify(holesArray) + "\n"
     });

@@ -50,7 +50,7 @@ exports.handler = async function(event, context) {
         + "// fillSvgPathsCount:\n"
         + fillSvgPathsCount
         + "\n--------------\n"
-        + "fillPointsCount: " + fillPointsCount "\n"
+        + "fillPointsCount: " + fillPointsCount + "\n"
         + "fillPoints:" + "\n"
         + JSON.stringify(fillPoints) + "\n"
     });

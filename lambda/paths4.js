@@ -27,6 +27,7 @@ exports.handler = async function(event, context) {
     tmp = new RegExp("<path [^>]*=.rgb." + holeColor + ".*$", 'mg');
     var fillSvgPaths=event.body
       .replace(tmp, "")
+      .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
     points = pathDataToPolys( fillSvgPaths, {tolerance:1, decimals:1});
     // points is now an array of polygons (arrays of point pairs)
     var fillPointsCount = points.length;

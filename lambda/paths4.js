@@ -30,7 +30,11 @@ exports.handler = async function(event, context) {
       .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
     points = pathDataToPolys( fillSvgPaths, {tolerance:1, decimals:1});
     // points is now an array of polygons (arrays of point pairs)
-    var fillPointsCount = points.length;
+    var fillPointsCount =
+      JSON.stringify(points)             // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
+      .replace(/[0-9\.],[[0-9\.]/g,"#")  // coordinates pairs
+      .replace(/[^#]/g,"")a              // count them
+      .length
 
 
     // count fillSvgPaths

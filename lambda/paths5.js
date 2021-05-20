@@ -128,10 +128,10 @@ exports.handler = async function(event, context) {
     return({
         statusCode: 200,
         body: ""
-        + "// svg fill paths: " + fillPathsCount + "\n"
-        + "// svg hole paths: " + holePathsCount + "\n"
-        + "// points #: " + pointsCount + "\n"
-        + "// holes  #: " + holesArray.length + "\n"
+        + "// svg fill paths: " + fillPathsCount + " "
+        + "   svg hole paths: " + holePathsCount + "\n"
+        + "// points #: " + pointsCount + "  "
+        + "   holes  #: " + holesArray.length + "\n"
         + "// points: " + JSON.stringify(pointsArray) + "\n"
         + "// holes : " + JSON.stringify(holesArray) + "\n"
         + "// triangles: \n/*\n" +  printTriangles(triangles) + "*/\n"

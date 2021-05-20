@@ -80,7 +80,7 @@ exports.handler = async function(event, context) {
     var triangles = [];
     var trianglesCount = 0;
 
-    var pointsCount = (data.vertices.length / 2);  // 2 coefficients per vertex
+    var pointsCount = (pointsArray.length / 2);  // 2 coefficients per vertex
     if (pointsCount > 0 ){
 
       vertexStr = ""
@@ -121,14 +121,12 @@ exports.handler = async function(event, context) {
     return({
         statusCode: 200,
         body: ""
-        + "// fill paths: " + fillPathsCount + "\n"
-        + "// hole paths: " + holePathsCount + "\n"
-        + "// points: " + pointsCount + "\n"
-        + "// holes: " + holesArray.length + "\n"
+        + "// svg fill paths: " + fillPathsCount + "\n"
+        + "// svg hole paths: " + holePathsCount + "\n"
+        + "// points #: " + ointsCount + "\n"
+        + "// holes  #: " + holesArray.length + "\n"
         + "// points: " + JSON.stringify(pointsArray) + "\n"
-        + "// holes: " + JSON.stringify(holesArray) + "\n"
-
-        + "// data: " + JSON.stringify(data) + "\n"
+        + "// holes : " + JSON.stringify(holesArray) + "\n"
         + "// triangles: \n/*\n" +  printTriangles(triangles) + "*/\n"
         + "var vertexMatrix"
         + " = new Float32Array(["

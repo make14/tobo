@@ -21,7 +21,6 @@ exports.handler = async function(event, context) {
       .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
 
 
-print("<"+mstring +">");
     // count fillSvgPaths
     // convert each line matching fillColor to a # character, and count them
     var tmp= new RegExp("<path [^>]*=." + holeColor + ".*$",'mg');

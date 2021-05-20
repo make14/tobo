@@ -34,7 +34,9 @@ exports.handler = async function(event, context) {
        if ( (inputLines[l].search(tmpf) != (-1)) || 
             (inputLines[l].search(tmph) != (-1)) ) {
          if (inputLines[l].search(tmph) != (-1)){
-           holesArray.push(pointsArray.length);      // a hole path starts here
+           // a hole path starts here
+           // holesArray stores indices of vertices
+           holesArray.push(pointsArray.length/2); // 2 coordinates per vertex
          };
          // keep the path part only
          tmp = inputLines[l].replace(/<path [^>]*d="([^"]*)"[^>]*>/, "$1");

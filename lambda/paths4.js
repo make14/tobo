@@ -33,7 +33,7 @@ exports.handler = async function(event, context) {
     var fillPointsCount =
       JSON.stringify(points)             // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
       .replace(/[0-9\.],[[0-9\.]/g,"#")  // coordinates pairs
-      .replace(/[^#]/g,"")a              // count them
+      .replace(/[^#]/g,"")               // count them
       .length
 
 

@@ -52,79 +52,26 @@ exports.handler = async function(event, context) {
          } else {
            fillPathsCount++;
          };
+
          // keep the path part only
          tmp = inputLines[l].replace(/<path [^>]*d="([^"]*)"[^>]*>/, "$1");
+
+         //
+         // convert svg paths to polygons
+         //
+         // points is now an array of polygons (arrays of point pairs)
+         // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
          points = pathDataToPolys( tmp, {tolerance:1, decimals:1});
          var data = earcut.flatten(points); 
          // produces  data = {"vertices":[...], "holes":[...], "dimensions": 2}
          // data.holes is incorrect, and will be ignored
+
          for (var c=0; c <= data.vertices.length; c++) {
             if (data.vertices[c]!=null)
               pointsArray.push(data.vertices[c]);
          }
        }
     }
-    pointsCount = (data.vertices.length / 2);  // 2 coefficients per vertex
-
-
-    if (1==1)
-    return({
-        statusCode: 200,
-        body: ""
-        + "// fill paths: " + fillPathsCount + "\n"
-        + "// hole paths: " + holePathsCount + "\n"
-        + "// points: " + JSON.stringify(pointsArray) + "\n"
-        + "// holes: " + JSON.stringify(holesArray) + "\n"
-    });
-
-
-    var allSvgPaths=event.body
-      .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
-
-    // find fillSvgPaths by deleting holeSvgPaths
-    tmp = new RegExp("<path [^>]*=.rgb." + holeColor + ".*$", 'mg');
-    var fillSvgPaths=event.body
-      .replace(tmp, "")
-      .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
-    points = pathDataToPolys( fillSvgPaths, {tolerance:1, decimals:1});
-    // points is now an array of polygons (arrays of point pairs)
-    var fillPointsCount =
-      JSON.stringify(points)             // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
-      .replace(/[0-9\.],[[0-9\.]/g,"#")  // coordinates pairs
-      .replace(/[^#]/g,"")               // count them
-      .length
-
-
-    // count fillSvgPaths
-    // (convert every line matching fillColor to a # character, and count #'s)
-    tmp = new RegExp("<path [^>]*=.rgb." + fillColor + ".*$", 'mg');
-    var fillSvgPathsCount = event.body
-      .replace(tmp, "#")
-      .replace(/[^#]/gm, "")
-      .length
-
-    if (1==0)
-    return({
-        statusCode: 200,
-        body: ""
-        + "// allSvgPaths:\n"
-        + allSvgPaths
-        + "--------------\n"
-        + "// fillSvgPathsCount:\n"
-        + fillSvgPathsCount
-        + "\n--------------\n"
-        + "fillPointsCount: " + fillPointsCount + "\n"
-        + "fillPoints:" + "\n"
-        + JSON.stringify(points) + "\n"
-    });
-
-
-    //
-    // convert svg paths to polygons
-    //
-    points = pathDataToPolys( allSvgPaths, {tolerance:1, decimals:1});
-    // points is now an array of polygons (arrays of point pairs)
-    // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
 
     var vertexStr = "";
     var indexStr = "";
@@ -132,17 +79,12 @@ exports.handler = async function(event, context) {
 
     var triangles = [];
     var trianglesCount = 0;
-    var pointsCount = 0;
 
-    var data = earcut.flatten(points); 
-    // produces  data = {"vertices":[...], "holes":[...], "dimensions": 2}
-    // data.holes is incorrect, and will be ignored
-    pointsCount = (data.vertices.length / 2);  // 2 coefficients for each point
-
+    var pointsCount = (data.vertices.length / 2);  // 2 coefficients per vertex
     if (pointsCount > 0 ){
 
       vertexStr = ""
-        + JSON.stringify(data.vertices)
+        + JSON.stringify(pointsArray)
               // remove square brackets and quotes
               .replace(/["\[\]]/g, "")
               // append a comma
@@ -155,8 +97,7 @@ exports.handler = async function(event, context) {
 
 
       // all points after the first fillPointsCount ones correspond to holes
-      if (fillPointsCount > 0) holesArray.push(fillPointsCount);
-      triangles = earcut(data.vertices, holesArray);
+      triangles = earcut(pointsArray, holesArray);
 
       if (triangles.length > 0 ){
         indexStr = ""
@@ -178,6 +119,11 @@ exports.handler = async function(event, context) {
     return({
         statusCode: 200,
         body: ""
+        + "// fill paths: " + fillPathsCount + "\n"
+        + "// hole paths: " + holePathsCount + "\n"
+        + "// points: " + JSON.stringify(pointsArray) + "\n"
+        + "// holes: " + JSON.stringify(holesArray) + "\n"
+
         + "// points.length: " + points.length + "\n"
         + "// points: " + pointsCount + "\n"
         + "// fill points: 0-" + String(fillPointsCount-1) + "\n"

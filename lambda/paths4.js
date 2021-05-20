@@ -4,6 +4,8 @@
 //<path fill="rgb(254,0,0)" stroke="rgb(254,0,0)" stroke-width="1" opacity="1" d="M 361.5 280 L 362 387 L 311 386.5 L 361.5 280 Z " />
 //<path fill="rgb(254,0,0)" stroke="rgb(254,0,0)" stroke-width="1" opacity="1" d="M 362 187 L 459.5 187 L 460 187.5 L 460 217 L 362.5 217 L 362 216.5 L 362 187 Z " />
 //<path fill="rgb(254,0,0)" stroke="rgb(254,0,0)" stroke-width="1" opacity="1" d="M 516.5 279 L 517 387 L 461.5 387 L 461 385.5 L 516.5 279 Z " />
+//
+// in the above sample "0,0,0" is the fill color, "254,0,0" is the hole color
 
 // sample output:
 
@@ -29,6 +31,7 @@ exports.handler = async function(event, context) {
       .replace(/[^#]/gm, "")
       .length
 
+    if (1==0)
     return({
         statusCode: 200,
         body: ""
@@ -41,10 +44,11 @@ exports.handler = async function(event, context) {
     });
 
 
-    let points = pathDataToPolys(
-        event.body,
-        {tolerance:1, decimals:1});
-
+    //
+    // convert svg paths to polygons
+    //
+    var points = pathDataToPolys( allSvgPaths, {tolerance:1, decimals:1});
+    // points is now an array of polygons (arrays of point pairs)
 
     var vertexStr = "";
     var indexStr = "";
@@ -100,6 +104,7 @@ exports.handler = async function(event, context) {
     return({
         statusCode: 200,
         body: ""
+        + "// points.length: " + points.length + "\n"
         + "// points: " + pointsCount + "\n"
         + "var vertexMatrix"
         + " = new Float32Array(["

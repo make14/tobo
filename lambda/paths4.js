@@ -53,7 +53,7 @@ exports.handler = async function(event, context) {
         + "\n--------------\n"
         + "fillPointsCount: " + fillPointsCount + "\n"
         + "fillPoints:" + "\n"
-        + JSON.stringify(fillPoints) + "\n"
+        + JSON.stringify(points) + "\n"
     });
 
 

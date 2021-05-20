@@ -96,7 +96,9 @@ exports.handler = async function(event, context) {
       ;
 
 
-      // all points after the first fillPointsCount ones correspond to holes
+      //
+      // convert polygons to triangles
+      //
       triangles = earcut(pointsArray, holesArray);
 
       if (triangles.length > 0 ){
@@ -121,15 +123,11 @@ exports.handler = async function(event, context) {
         body: ""
         + "// fill paths: " + fillPathsCount + "\n"
         + "// hole paths: " + holePathsCount + "\n"
+        + "// points: " + pointsCount + "\n"
+        + "// holes: " + holesArray.length + "\n"
         + "// points: " + JSON.stringify(pointsArray) + "\n"
         + "// holes: " + JSON.stringify(holesArray) + "\n"
 
-        + "// points.length: " + points.length + "\n"
-        + "// points: " + pointsCount + "\n"
-        + "// fill points: 0-" + String(fillPointsCount-1) + "\n"
-        + "// hole points: " + String(fillPointsCount) + "-" + String(pointsCount-1) + "\n"
-        + "// points: " + JSON.stringify(points) + "\n"
-        + "// holes: " + JSON.stringify(holes) + "\n"
         + "// data: " + JSON.stringify(data) + "\n"
         + "// triangles: \n/*\n" +  printTriangles(triangles) + "*/\n"
         + "var vertexMatrix"

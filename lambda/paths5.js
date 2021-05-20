@@ -43,7 +43,8 @@ exports.handler = async function(event, context) {
          // produces  data = {"vertices":[...], "holes":[...], "dimensions": 2}
          // data.holes is incorrect, and will be ignored
          for (var c=0; c <= data.vertices.length; c++) {
-            pointsArray.push(data.vertices[c]);
+            if (data.vertices[c]!=null)
+              pointsArray.push(data.vertices[c]);
          }
        }
     }

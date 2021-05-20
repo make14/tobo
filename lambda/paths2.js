@@ -1,4 +1,4 @@
-// sample input (a series of paths, each on a different line:
+// sample input (a series of paths, each on a different line):
 //
 // M 432 26 L 607.5 26 L 608 26.5 L 608 68 L 545 68 L 545 263.5 L 544.5 264 L 495 264 L 495 68.5 L 494.5 68 L 432 68 L 432 26 Z
 // M 641 26 L 805.5 26 L 806 26.5 L 806 68 L 690 68 L 690 122 L 787 122 L 787 164 L 690 164 L 690 222 L 806 222 L 806 264 L 641 264 L 641 26
@@ -30,7 +30,7 @@ exports.handler = async function(event, context) {
       resText += ""
         + "var vertexMatrix" + padNumber(index,4)
         + " = new Float32Array( ["
-        + "\n  "
+        + "\n"
         + JSON.stringify(arr).replace(/"/g,"")
         + "\n] );\n"
         ;
@@ -40,7 +40,7 @@ exports.handler = async function(event, context) {
       resText += ""
         + "var index_Matrix" + padNumber(index,4)
         + " = new  Uint16Array("
-        + "\n  "
+        + "\n"
         + JSON.stringify(triangles)
         + "\n);\n"
         ;
@@ -753,7 +753,7 @@ earcut.flatten = function (data) {
 //TEST
 //TEST   vertices is a flat array of vertex coordinates like [x0,y0, x1,y1, x2,y2, ...]
 //TEST   holes is an array of hole indices if any (e.g. [5, 8] for a 12-vertex input
-//TEST         would mean one hole with vertices 5-7 and another with 8-10).
+//TEST         would mean one hole with vertices 5-7 and another with 8-11).
 //TEST   dimensions is the number of coordinates per vertex in the input array
 //TEST ****************/
 //TEST

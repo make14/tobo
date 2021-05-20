@@ -45,7 +45,7 @@ exports.handler = async function(event, context) {
       .replace(/[^#]/gm, "")
       .length
 
-    if (1==1)
+    if (1==0)
     return({
         statusCode: 200,
         body: ""
@@ -91,7 +91,7 @@ exports.handler = async function(event, context) {
               // ..., a,b, ...  -->  ..., a,b,0,1, ...
               .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
         + "\n"
-        ;
+      ;
 
 
       // points after the first fillPointsCount ones correspond to holes

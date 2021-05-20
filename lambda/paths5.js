@@ -70,7 +70,7 @@ exports.handler = async function(event, context) {
          //
          // points is now an array of polygons (arrays of point pairs)
          // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
-         points = pathDataToPolys( tmp, {tolerance:1, decimals:1});
+         points = pathDataToPolys( tmp, {tolerance:1, decimals:0});
          var data = earcut.flatten(points); 
          // produces  data = {"vertices":[...], "holes":[...], "dimensions": 2}
          // data.holes is incorrect, and will be ignored

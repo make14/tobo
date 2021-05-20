@@ -14,19 +14,19 @@ exports.handler = async function(event, context) {
       return ({ statusCode: 200, body: "POST method accepted only\n" });
     }
 
-    var fillColor='rgb(0,0,0)';
-    var holeColor='rgb(254,0,0)';
+    var fillColor='0,0,0';
+    var holeColor='254,0,0';
 
     var allSvgPaths=event.body
       .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
 
 
     // count fillSvgPaths
-    // convert each line matching fillColor to a # character, and count them
-    var tmp= new RegExp("<path [^>]*=." + holeColor + ".*$",'mg');
+    // (convert every line matching fillColor to a # character, and count #'s)
+    var tmp= new RegExp("<path [^>]*=.rgb." + holeColor + ".*$", 'mg');
     var fillSvgPathsCount = event.body
       .replace(tmp, "#")
-      .replace(/[^#]/gm,"")
+      .replace(/[^#]/gm, "")
       .length
 
     return({
@@ -37,7 +37,7 @@ exports.handler = async function(event, context) {
         + "--------------\n"
         + "// fillSvgPathsCount:\n"
         + fillSvgPathsCount
-        + "--------------\n"
+        + "\n--------------\n"
     });
 
 

@@ -73,17 +73,18 @@ exports.handler = async function(event, context) {
     var colorStr = "";
 
     var triangles = [];
-    var arr = [];
     var trianglesCount = 0;
     var pointsCount = 0;
 
-    arr = points.join().split(",");
-    pointsCount = (arr.length / 2);      // 2 coefficients for each point
+    var data = earcut.flatten(points); 
+    // produces  data = {"vertices":[...], "holes":[...], "dimensions": 2}
+    // data.holes is incorrect, and will be ignored
+    pointsCount = (data.vertices.length / 2);  // 2 coefficients for each point
 
-    if (arr.length > 0 ){
+    if (pointsCount > 0 ){
 
       vertexStr = ""
-        + JSON.stringify(arr)
+        + JSON.stringify(data.vertices)
               // remove square brackets and quotes
               .replace(/["\[\]]/g, "")
               // append a comma
@@ -98,7 +99,7 @@ exports.handler = async function(event, context) {
       // all points after the first fillPointsCount ones correspond to holes
       var holes = [];
       if (fillPointsCount > 0) holes.push(fillPointsCount);
-      triangles = earcut(arr, holes);
+      triangles = earcut(data.vertices, holes);
 
       if (triangles.length > 0 ){
         indexStr = ""
@@ -112,7 +113,6 @@ exports.handler = async function(event, context) {
 
     }
 
-   var data = earcut.flatten(points);
 
    // 10 τυπικά χρώματα: κόκκινο πράσινο μπλε κίτρινο ιώδες γαλάζιο καφέ ροζ πορτοκαλί λευκό
    var colors = ["1.0,0.0,0.0,1", "0.0,1.0,0.0,1", "0.0,0.0,1.0,1", "1.0,1.0,0.0,1", "1.0,0.0,1.0,1", "0.0,1.0,1.0,1", "0.6,0.2,0.0", "1.0,0.8,1.0", "1.0,0.39,0.13", "1.0,1.0,1.0" ];

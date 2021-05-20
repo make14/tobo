@@ -96,7 +96,9 @@ exports.handler = async function(event, context) {
 
 
       // all points after the first fillPointsCount ones correspond to holes
-      triangles = earcut( arr, fillPointsCount );
+      var holes = [];
+      if (fillPointsCount > 0) holes.push(fillPointsCount);
+      triangles = earcut(arr, holes);
 
       if (triangles.length > 0 ){
         indexStr = ""

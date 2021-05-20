@@ -124,6 +124,7 @@ exports.handler = async function(event, context) {
         + "// points: " + pointsCount + "\n"
         + "// fill points: 0-" + String(fillPointsCount-1) + "\n"
         + "// hole points: " + String(fillPointsCount) + "-" + String(pointsCount-1) + "\n"
+        + "// arr: " + JSON.stringify(arr) + "\n"
         + "// holes: " + JSON.stringify(holes) + "\n"
         + "// triangles: \n/*\n" +  printTriangles(triangles) + "*/\n"
         + "var vertexMatrix"

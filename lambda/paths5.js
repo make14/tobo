@@ -42,7 +42,7 @@ exports.handler = async function(event, context) {
          var data = earcut.flatten(points); 
          // produces  data = {"vertices":[...], "holes":[...], "dimensions": 2}
          // data.holes is incorrect, and will be ignored
-         for (var c=0; c <= data.vertices.length, c++) {
+         for (var c=0; c <= data.vertices.length; c++) {
             pointsArray.push(data.vertices[c];
          }
        }
@@ -56,6 +56,7 @@ exports.handler = async function(event, context) {
         + "// points: " + JSON.stringify(pointsArray) + "\n"
         + "// holes: " + JSON.stringify(holesArray) + "\n"
     });
+
 
     var allSvgPaths=event.body
       .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")

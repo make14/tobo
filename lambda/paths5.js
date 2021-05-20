@@ -1,3 +1,10 @@
+// Convert SVG paths to webgl points/indices/colors arrays
+
+// !! the y-axis in SVG grows downwards (from top to bottom) !!
+// !! use negative Y scaling, like
+// !! glMatrix.mat4.fromScaling(scalingMatrix,[1.0/850, -1.0/850, 1.0]);
+
+
 // sample input (a series of svg fill paths, followed by hole paths):
 //
 //<path fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-width="1" opacity="1" d="M 0 0 L 863 0 L 863 483 L 0 483 L 0 0 Z M 362 187 L 362 217 L 363 217 L 460 217 L 460 188 L 460 187 L 362 187 Z M 517 278 L 460 387 L 517 387 L 517 278 Z M 362 279 L 311 386 L 312 387 L 362 387 L 362 279 Z " />
@@ -123,7 +130,7 @@ exports.handler = async function(event, context) {
         body: ""
         + "// svg fill paths: " + fillPathsCount + "\n"
         + "// svg hole paths: " + holePathsCount + "\n"
-        + "// points #: " + ointsCount + "\n"
+        + "// points #: " + pointsCount + "\n"
         + "// holes  #: " + holesArray.length + "\n"
         + "// points: " + JSON.stringify(pointsArray) + "\n"
         + "// holes : " + JSON.stringify(holesArray) + "\n"

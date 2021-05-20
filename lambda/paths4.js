@@ -124,6 +124,8 @@ exports.handler = async function(event, context) {
         + "// points: " + pointsCount + "\n"
         + "// fill points: 0-" + String(fillPointsCount-1) + "\n"
         + "// hole points: " + String(fillPointsCount) + "-" + String(pointsCount-1) + "\n"
+        + "// holes: " + JSON.stringify(holes) + "\n"
+        + "// triangles: \n/*" +  printTriangles(triangles) + "*/\n"
         + "var vertexMatrix"
         + " = new Float32Array(["
         + "\n"
@@ -152,9 +154,16 @@ exports.handler = async function(event, context) {
     });
 }
 
-//triangles = earcut([
-//   10,0, 0,50, 60,60, 70,10
-//]); // returns [1,0,3, 3,2,1]
+function printTriangles(triangles){
+  var t = "";
+  for (var i=0; i<(triangles.length);i=i+3){
+    t += "  "
+         + triangles[i] + ","
+         + triangles[i+1] + ","
+         + triangles[i+2] + "\n"
+  };
+  return t;
+}
 
 
 

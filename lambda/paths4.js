@@ -11,6 +11,7 @@
 
 exports.handler = async function(event, context) {
     const { pathDataToPolys } = require('svg-path-to-polygons');
+    var tmp, points;
 
     if (event.httpMethod != "POST") {
       return ({ statusCode: 200, body: "POST method accepted only\n" });
@@ -22,16 +23,24 @@ exports.handler = async function(event, context) {
     var allSvgPaths=event.body
       .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
 
+    // find fillSvgPaths by deleting holeSvgPaths
+    tmp = new RegExp("<path [^>]*=.rgb." + holeColor + ".*$", 'mg');
+    var fillSvgPaths=event.body
+      .replace(tmp, "")
+    points = pathDataToPolys( fillSvgPaths, {tolerance:1, decimals:1});
+    // points is now an array of polygons (arrays of point pairs)
+    var fillPointsCount = points.length;
+
 
     // count fillSvgPaths
     // (convert every line matching fillColor to a # character, and count #'s)
-    var tmp= new RegExp("<path [^>]*=.rgb." + fillColor + ".*$", 'mg');
+    tmp = new RegExp("<path [^>]*=.rgb." + fillColor + ".*$", 'mg');
     var fillSvgPathsCount = event.body
       .replace(tmp, "#")
       .replace(/[^#]/gm, "")
       .length
 
-    if (1==0)
+    if (1==1)
     return({
         statusCode: 200,
         body: ""
@@ -41,13 +50,16 @@ exports.handler = async function(event, context) {
         + "// fillSvgPathsCount:\n"
         + fillSvgPathsCount
         + "\n--------------\n"
+        + "fillPointsCount: " + fillPointsCount "\n"
+        + "fillPoints:" + "\n"
+        + JSON.stringify(fillPoints) + "\n"
     });
 
 
     //
     // convert svg paths to polygons
     //
-    var points = pathDataToPolys( allSvgPaths, {tolerance:1, decimals:1});
+    points = pathDataToPolys( allSvgPaths, {tolerance:1, decimals:1});
     // points is now an array of polygons (arrays of point pairs)
 
     var vertexStr = "";

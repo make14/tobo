@@ -79,6 +79,7 @@ exports.handler = async function(event, context) {
 
     arr = points.join().split(",");
     pointsCount = (arr.length / 2);      // 2 coefficients for each point
+
     if (arr.length > 0 ){
 
       vertexStr = ""
@@ -98,9 +99,6 @@ exports.handler = async function(event, context) {
       triangles = earcut( arr, fillPointsCount );
 
       if (triangles.length > 0 ){
-        // set the appropriate index matrix offset
-        for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
-
         indexStr = ""
           + JSON.stringify(triangles)
                 // remove square brackets

@@ -1,4 +1,4 @@
-// Convert SVG paths to webgl points/indices/colors arrays
+// Convert SVG paths to webgl points/indices/colors matrix
 // PNG images converted to SVG should have a solid white background
 
 
@@ -17,6 +17,11 @@
 // in the above sample "0,0,0" is the fill color, "254,0,0" is the hole color
 
 // sample output:
+
+
+
+// The conversion may produce a few extra (phantom) triangles
+// which will have to be removed by hand
 
 const { pathDataToPolys } = require('svg-path-to-polygons');
 

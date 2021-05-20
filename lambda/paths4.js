@@ -66,6 +66,7 @@ exports.handler = async function(event, context) {
     //
     points = pathDataToPolys( allSvgPaths, {tolerance:1, decimals:1});
     // points is now an array of polygons (arrays of point pairs)
+    // [ [[a,b],[c,d]], [[e,f],[g,h]] ...] 
 
     var vertexStr = "";
     var indexStr = "";
@@ -76,41 +77,39 @@ exports.handler = async function(event, context) {
     var trianglesCount = 0;
     var pointsCount = 0;
 
-    for (var index=0; index<points.length; index++){
-      // flatten array row
-      // [ [a,b],[c,d],...]  -->  [a, b, c, d, ... ]
-      arr = points[index].join().split(",");
+    arr = points.join().split(",");
+    pointsCount = (arr.length / 2);      // 2 coefficients for each point
+    if (arr.length > 0 ){
 
-      if (arr.length > 0 ){
-        vertexStr += ""
-          + JSON.stringify(arr)
-                // remove square brackets and quotes
-                .replace(/["\[\]]/g, "")
-                // append a comma
-                .replace(/$/,",")
-                // convert pairs of coefficients to quartet
-                // ..., a,b, ...  -->  ..., a,b,0,1, ...
-                .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
-          + "\n"
+      vertexStr = ""
+        + JSON.stringify(arr)
+              // remove square brackets and quotes
+              .replace(/["\[\]]/g, "")
+              // append a comma
+              .replace(/$/,",")
+              // convert pairs of coefficients to quartet
+              // ..., a,b, ...  -->  ..., a,b,0,1, ...
+              .replace(/([^,]*,[^,]*,)/g, "$10,1, ")
+        + "\n"
+        ;
+
+
+      // points after the first fillPointsCount ones correspond to holes
+      triangles = earcut( arr, fillPointsCount );
+
+      if (triangles.length > 0 ){
+        // set the appropriate index matrix offset
+        for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
+
+        indexStr = ""
+          + JSON.stringify(triangles)
+                // remove square brackets
+                .replace(/[\[\]]/g, "")
+          + ",\n"
           ;
-
-
-        triangles = earcut( arr );
-        if (triangles.length > 0 ){
-          // set the appropriate index matrix offset
-          for (var i=0; i<triangles.length;i++) triangles[i]+= pointsCount;
-
-          indexStr += ""
-            + JSON.stringify(triangles)
-                  // remove square brackets
-                  .replace(/[\[\]]/g, "")
-            + ",\n"
-            ;
-          trianglesCount += triangles.length;
-        }
-
-        pointsCount += (arr.length / 2);      // 2 coefficients for each point
+        trianglesCount = triangles.length;
       }
+
     }
 
 

@@ -23,7 +23,7 @@ exports.handler = async function(event, context) {
 
     // count fillSvgPaths
     // (convert every line matching fillColor to a # character, and count #'s)
-    var tmp= new RegExp("<path [^>]*=.rgb." + holeColor + ".*$", 'mg');
+    var tmp= new RegExp("<path [^>]*=.rgb." + fillColor + ".*$", 'mg');
     var fillSvgPathsCount = event.body
       .replace(tmp, "#")
       .replace(/[^#]/gm, "")

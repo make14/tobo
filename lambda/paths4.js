@@ -112,6 +112,7 @@ exports.handler = async function(event, context) {
 
     }
 
+   var data = earcut.flatten(arr);
 
    // 10 τυπικά χρώματα: κόκκινο πράσινο μπλε κίτρινο ιώδες γαλάζιο καφέ ροζ πορτοκαλί λευκό
    var colors = ["1.0,0.0,0.0,1", "0.0,1.0,0.0,1", "0.0,0.0,1.0,1", "1.0,1.0,0.0,1", "1.0,0.0,1.0,1", "0.0,1.0,1.0,1", "0.6,0.2,0.0", "1.0,0.8,1.0", "1.0,0.39,0.13", "1.0,1.0,1.0" ];
@@ -126,6 +127,7 @@ exports.handler = async function(event, context) {
         + "// hole points: " + String(fillPointsCount) + "-" + String(pointsCount-1) + "\n"
         + "// arr: " + JSON.stringify(arr) + "\n"
         + "// holes: " + JSON.stringify(holes) + "\n"
+        + "// data: " + JSON.stringify(data) + "\n"
         + "// triangles: \n/*\n" +  printTriangles(triangles) + "*/\n"
         + "var vertexMatrix"
         + " = new Float32Array(["

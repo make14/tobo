@@ -18,13 +18,26 @@ exports.handler = async function(event, context) {
     var holeColor='rgb(254,0,0)';
 
     var allSvgPaths=event.body
-      .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, " $1 ")
+      .replace(/<path [^>]*d="([^"]*)"[^>]*>/mig, "$1")
+
+
+print("<"+mstring +">");
+    // count fillSvgPaths
+    // convert each line matching fillColor to a # character, and count them
+    var tmp= new RegExp("<path [^>]*=." + holeColor + ".*$",'mg');
+    var fillSvgPathsCount = event.body
+      .replace(tmp, "#")
+      .replace(/[^#]/gm,"")
+      .length
 
     return({
         statusCode: 200,
         body: ""
         + "// allSvgPaths:\n"
         + allSvgPaths
+        + "--------------\n"
+        + "// fillSvgPathsCount:\n"
+        + fillSvgPathsCount
         + "--------------\n"
     });
 

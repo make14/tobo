@@ -95,7 +95,7 @@ exports.handler = async function(event, context) {
       ;
 
 
-      // points after the first fillPointsCount ones correspond to holes
+      // all points after the first fillPointsCount ones correspond to holes
       triangles = earcut( arr, fillPointsCount );
 
       if (triangles.length > 0 ){
@@ -120,6 +120,8 @@ exports.handler = async function(event, context) {
         body: ""
         + "// points.length: " + points.length + "\n"
         + "// points: " + pointsCount + "\n"
+        + "// fill points: 0-" + fillPointsCount-1 + "\n"
+        + "// hole points: " + fillPointsCount + "-" + pointsCount-1 + "\n"
         + "var vertexMatrix"
         + " = new Float32Array(["
         + "\n"

@@ -795,7 +795,7 @@ earcut.flatten = function (data) {
 //TEST
 //TEST   vertices is a flat array of vertex coordinates like [x0,y0, x1,y1, x2,y2, ...]
 //TEST   holes is an array of hole indices if any (e.g. [5, 8] for a 12-vertex input
-//TEST         would mean one hole with vertices 5-7 and another with 8-10).
+//TEST         would mean one hole with vertices 5-7 and another with 8-11).
 //TEST   dimensions is the number of coordinates per vertex in the input array
 //TEST ****************/
 //TEST
